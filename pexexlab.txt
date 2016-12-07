@@ -1,0 +1,19 @@
+Pexex Lab
+Jeannie Chiem
+UID:504666652
+
+Goal: to see how much overhead is imposed by Emacs when doing standard arithmetic operations, in particular multiplication with integer arguments,
+      and to think about how to reduce the arithmetic overhead.
+
+In the beginning, I tried to run the gdb using the command "$ ~eggert/bin64/bin/emacs-24.5", but it would give me an error. Then I tried using the command
+"$ gdb ~eggert/bin64/bin/emacs-24.5" which did work and allowed me to then use the debugger.
+At first, I directly ran the command "(gdb) run -batch -eval '(print (* -800 588 -2300))'" but it just printed the calculation and a large list of irrelevant
+strings. That was not what I needed so then I set a breakpoint to the function that I needed to trace, Ftimes, by using the command "(gdb) break Ftimes". 
+This time when I reran "(gdb) run -batch -eval '(print (* -800 588 -2300))'", it gave me the line of code starting at
+the function Ftimes. This was a step in the right direction but still not enough. To get the information I needed, I tried using the command 
+"(gdb) set disassemble-next-line on" which would print the dissassembled machine code for each step of instruction I was on. Now, after rerunning gdb on the
+function yet again, It gave me the line of instruction that I was on as well as the machine code associated with it. To get the values that were on the registers
+for each step, I tried using the command "(gdb) info registers" which gave me all the addresses stored in each register. Finally, to step through every line of code,
+I used the command "(gdb) si" which would take me to the next line of machine code. After figuring out how it all worked, all that was left to do was trace the machine
+code which was a very tedious process. For every line I would use "(gdb) si" and "(gdb) info registers" and copied the results into the trace file. Eventually, I got
+to the end of the function and got all of the traces. Overall, it was not that difficult a project to do, just very time consuming.
